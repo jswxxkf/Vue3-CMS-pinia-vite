@@ -1,21 +1,22 @@
-<script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup
-import HelloWorld from './components/HelloWorld.vue'
-</script>
-
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div class="">
+    <router-link to="/login">登录</router-link>
+    <router-link to="/main">首页</router-link>
+  </div>
+  <router-view></router-view>
+  <div class="">{{ username }}</div>
+  <el-button type="danger">危险按钮</el-button>
 </template>
+
+<script setup lang="ts">
+import { useUserStore } from '@/store/modules/user'
+const username = useUserStore().username
+</script>
 
 <style lang="less">
 #app {
-  margin-top: 60px;
-  color: #2c3e50;
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  text-align: center;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 </style>
