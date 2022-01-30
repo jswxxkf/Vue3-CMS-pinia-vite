@@ -1,20 +1,36 @@
 {
   "compilerOptions": {
+    // 目标代码(ts->js(es5?es6?))
     "target": "esnext",
-    "useDefineForClassFields": true,
+    // 目标代码所使用的模块化方案(UMD?CommonJS?ESM?AMD?CMD?)
     "module": "esnext",
-    "moduleResolution": "node",
+    // 严格模式检查
     "strict": true,
+    // 对JSX进行怎样的处理(保留)
     "jsx": "preserve",
+    // 辅助的导入功能
+    // "importHelpers": true,
+    "useDefineForClassFields": true,
+    // 按照node的方式去解析模块
+    "moduleResolution": "node",
+    // 跳过一些库的类型检测(@types/lodash,@types/axios...)
+    "skipLibCheck": true,
+    // 是否生成映射文件
     "sourceMap": true,
     "resolveJsonModule": true,
+    // export default 和 module.exports = {} 可否混合使用
     "esModuleInterop": true,
+    // 是否允许一行内合并默认导出项
     "allowSyntheticDefaultImports": true,
+    // 指定可以在项目中直接使用的库中类型(Proxy/Window/Document...)
     "lib": ["esnext", "dom"],
+    // 文件路径在解析时，基URL
     "baseUrl": ".",
+    // 路径解析(需要先指定baseUrl)
     "paths": {
       "@/*": ["src/*"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
+  "exclude": ["node_modules"]
 }

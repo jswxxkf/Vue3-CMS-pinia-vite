@@ -1,22 +1,13 @@
 <template>
-  <div class="">
-    <router-link to="/login">登录</router-link>
-    <router-link to="/main">首页</router-link>
+  <div class="app">
+    <router-view></router-view>
   </div>
-  <router-view></router-view>
-  <div class="">{{ username }}</div>
-  <el-button type="danger">危险按钮</el-button>
 </template>
 
-<script setup lang="ts">
-import { useUserStore } from '@/store/modules/user'
-const username = useUserStore().username
-</script>
+<script setup lang="ts"></script>
 
-<style lang="less">
-#app {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+<style scoped lang="less">
+.app {
+  height: 100%;
 }
 </style>
