@@ -52,6 +52,7 @@ class KfRequest {
         return data
       },
       (err) => {
+        this.loading?.close()
         // 判断不同的errorCode来显示不同的错误信息
         if (err.response.status === 404) {
           console.log('404错误')
