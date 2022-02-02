@@ -1,5 +1,7 @@
 <template>
-  <div class="overview"></div>
+  <div class="overview">
+    <h2>Overview</h2>
+  </div>
 </template>
 
 <script setup lang="ts"></script>

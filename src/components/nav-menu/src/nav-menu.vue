@@ -5,6 +5,7 @@
       <span v-if="!isCollapsed" class="title">Vue3+TS+Pinia+Vite</span>
     </div>
     <el-menu
+      :default-active="defaultValue"
       background-color="#0c2135"
       class="el-menu-vertical"
       text-color="#b7bdc3"
@@ -23,7 +24,7 @@
             </template>
             <!-- 遍历二级菜单中的展开项 -->
             <template v-for="subItem in item.children" :key="subItem.id">
-              <el-menu-item :index="subItem.id + ''">
+              <el-menu-item :index="subItem.id + ''" @click="handleMenuItemClick(subItem)">
                 <el-icon v-if="subItem.icon"><component :is="getIconCpn(subItem.icon)" /></el-icon>
                 <span>{{ subItem.name }}</span>
               </el-menu-item>
@@ -49,7 +50,17 @@ import { ElMenu, ElSubMenu, ElMenuItem, ElIcon } from 'element-plus'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
 // hooks
 import { useUserStore } from '@/store'
+import { useRouter, useRoute } from 'vue-router'
+// utils
+import { mapPathToMenu } from '@/utils/map-menus'
 
+const router = useRouter()
+// 求取当前路径对应的菜单id
+const userMenus = computed(() => useUserStore().getUserMenus)
+const currentPath = useRoute().path
+const menu = mapPathToMenu(userMenus.value, currentPath)
+const defaultValue = ref(menu.id + '')
+// ===================
 const props = withDefaults(
   defineProps<{
     isCollapsed: boolean
@@ -65,7 +76,12 @@ const iconMapper = {
   'el-icon-chat-line-round': ChatLineRound
 } as { [k: string]: any }
 const getIconCpn = (key: string) => iconMapper[key]
-const userMenus = computed(() => useUserStore().getUserMenus)
+// 事件处理
+const handleMenuItemClick = (item: any) => {
+  router.push({
+    path: item.url ?? '/not-found'
+  })
+}
 </script>
 
 <style scoped lang="less">

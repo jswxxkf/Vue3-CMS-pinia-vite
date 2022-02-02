@@ -3,8 +3,8 @@ import { setupUser, useUserStore } from './modules/user'
 
 const store = createPinia()
 
-export function setupStore() {
-  setupUser()
+export async function setupStore() {
+  await setupUser()
 }
 
 export { useUserStore }

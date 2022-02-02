@@ -2,6 +2,7 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 // utils
 import localCache from '@/utils/cache'
+import { getAllRoutes, filterOutValidRoutes } from '@/utils/map-menus'
 // constants
 import { TOKEN_KEY, USER_INFO_KEY, USER_MENUS_KEY } from '@/constants/cache_keys'
 // types
@@ -48,8 +49,14 @@ export const useUserStore = defineStore({
       this.userInfo = userInfo
       localCache.setCache(USER_INFO_KEY, userInfo)
     },
-    setUserMenus(userMenus: any) {
+    async setUserMenus(userMenus: any) {
       this.userMenus = userMenus
+      // 获取所有主页路由信息
+      const allRoutes = await getAllRoutes()
+      // 根据当前用户权限对应的菜单，筛选出符合条件的路由
+      const validRoutes = filterOutValidRoutes(userMenus, allRoutes)
+      // 注入主页的子路由
+      validRoutes.forEach((route) => router.addRoute('main', route))
       localCache.setCache(USER_MENUS_KEY, userMenus)
     },
     async accountLogin(account: IAccount) {
@@ -64,7 +71,7 @@ export const useUserStore = defineStore({
       // 3.请求用户菜单
       const userMenusRes = await requestUserMenusById(id)
       const userMenus = userMenusRes.data
-      this.setUserMenus(userMenus)
+      await this.setUserMenus(userMenus)
       // 4.跳转首页
       router.push('/main')
     },
@@ -74,7 +81,7 @@ export const useUserStore = defineStore({
   }
 })
 
-export function setupUser() {
+export async function setupUser() {
   const userStore = useUserStore()
   // 设置token
   const token = localCache.getCache(TOKEN_KEY)
@@ -84,5 +91,6 @@ export function setupUser() {
   userInfo && userStore.setUserInfo(userInfo)
   // 设置userMenus
   const userMenus = localCache.getCache(USER_MENUS_KEY)
-  userMenus && userStore.setUserMenus(userMenus)
+  if (!userMenus) throw new Error('未获取到用户菜单信息!')
+  await userStore.setUserMenus(userMenus)
 }

@@ -4,5 +4,5 @@ import registerIcons from './register-icons'
 
 export function globalRegister(app: App) {
   registerElement(app)
-  registerIcons(app)
+  // registerIcons(app)
 }
