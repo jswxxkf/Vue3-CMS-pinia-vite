@@ -9,7 +9,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElBreadcrumb, ElBreadcrumbItem } from 'element-plus'
 // types
 import { IBreadcrumb } from '../types'
 

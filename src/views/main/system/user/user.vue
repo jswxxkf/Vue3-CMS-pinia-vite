@@ -1,23 +1,17 @@
 <template>
   <div class="user">
-    <kf-form v-model="formData" v-bind="searchFormConfig" />
+    <page-search :search-form-config="searchFormConfig" />
+    <page-content :content-table-config="contentTableConfig" page-name="users" />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from 'vue'
 // sub cpn
-import KfForm from '@/base-ui/form'
+import PageSearch from '@/components/page-search'
+import PageContent from '@/components/page-content'
 // config
 import { searchFormConfig } from './config/search.config'
-
-const formData = reactive({
-  name: '',
-  realname: '',
-  cellphone: '',
-  enable: '',
-  createAt: ''
-})
+import { contentTableConfig } from './config/content.config'
 </script>
 
 <style scoped lang="less"></style>

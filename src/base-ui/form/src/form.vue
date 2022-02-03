@@ -48,17 +48,6 @@
 
 <script setup lang="ts">
 import { CSSProperties, ref, watch } from 'vue'
-// sub cpn
-import {
-  ElForm,
-  ElFormItem,
-  ElInput,
-  ElSelect,
-  ElOption,
-  ElDatePicker,
-  ElRow,
-  ElCol
-} from 'element-plus'
 // types
 import { IFormItem } from '../types'
 
@@ -67,7 +56,7 @@ const props = withDefaults(
     modelValue: any
     labelWidth: string
     formItems: IFormItem[]
-    itemStyle: CSSProperties
+    itemStyle?: CSSProperties
     colLayout?: any
   }>(),
   {

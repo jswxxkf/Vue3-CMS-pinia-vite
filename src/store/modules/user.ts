@@ -14,15 +14,14 @@ import {
   requestUserMenusById
 } from '@/service/login/login'
 
-interface UserState {
+interface IUserState {
   token: string
   userInfo: any
   userMenus: any
 }
 
-export const useUserStore = defineStore({
-  id: 'user',
-  state(): UserState {
+export const useUserStore = defineStore('user', {
+  state: (): IUserState => {
     return {
       token: '',
       userInfo: {},

@@ -46,7 +46,6 @@
 <script setup lang="ts">
 import { computed, DefineComponent, ref } from 'vue'
 // sub cpn
-import { ElMenu, ElSubMenu, ElMenuItem, ElIcon } from 'element-plus'
 import { Monitor, Setting, Goods, ChatLineRound } from '@element-plus/icons-vue'
 // hooks
 import { useUserStore } from '@/store'

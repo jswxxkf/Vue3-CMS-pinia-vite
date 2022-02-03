@@ -23,7 +23,6 @@
 </template>
 
 <script setup lang="ts">
-import { ElDropdown, ElDropdownMenu, ElDropdownItem, ElAvatar } from 'element-plus'
 import { ArrowDown } from '@element-plus/icons-vue/'
 import { useUserStore } from '@/store'
 import { computed } from 'vue'

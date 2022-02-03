@@ -1,6 +1,7 @@
 import kfRequest from '..'
 // types
-import type { IAccount, IDataType, ILoginResult } from './types'
+import type { IDataType } from '../types'
+import type { IAccount, ILoginResult } from './types'
 
 enum LoginAPI {
   AccountLogin = '/login',

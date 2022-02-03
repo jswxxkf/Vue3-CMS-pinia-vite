@@ -18,7 +18,6 @@ import { ref, computed } from 'vue'
 import { useUserStore } from '@/store'
 import { useRoute } from 'vue-router'
 // sub cpn
-import { ElIcon } from 'element-plus'
 import { Fold, Expand } from '@element-plus/icons-vue'
 import UserInfo from './user-info.vue'
 import KfBreadcrumb from '@/base-ui/breadcrumb'
