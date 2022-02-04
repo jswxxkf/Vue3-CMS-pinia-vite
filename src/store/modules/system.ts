@@ -7,6 +7,10 @@ interface ISystemState {
   usersCount: number
   roleList: any[]
   roleCount: number
+  goodsList: any[]
+  goodsCount: number
+  menuList: any[]
+  menuCount: number
 }
 
 export const useSystemStore = defineStore('system', {
@@ -15,7 +19,11 @@ export const useSystemStore = defineStore('system', {
       usersList: [],
       usersCount: 0,
       roleList: [],
-      roleCount: 0
+      roleCount: 0,
+      goodsList: [],
+      goodsCount: 0,
+      menuList: [],
+      menuCount: 0
     }
   },
   getters: {
@@ -39,9 +47,17 @@ export const useSystemStore = defineStore('system', {
       this.roleList = roleList
       this.roleCount = roleCount
     },
-    async getPageList(pageName: string, offset = 0, size = 10) {
+    goodsPageDataSetting(goodsList: any[], goodsCount: number) {
+      this.goodsList = goodsList
+      this.goodsCount = goodsCount
+    },
+    menuPageDataSetting(menuList: any[], menuCount: number) {
+      this.menuList = menuList
+      this.menuCount = menuCount
+    },
+    async getPageList(pageName: string, queryInfo: any) {
       const pageUrl = `/${pageName}/list`
-      const pageRes = await getPageListData(pageUrl, { offset, size })
+      const pageRes = await getPageListData(pageUrl, queryInfo)
       const { list, totalCount } = pageRes.data
       const pageDataSetter = `${pageName}PageDataSetting`
       ;(this as any)[pageDataSetter].call(this, list, totalCount)

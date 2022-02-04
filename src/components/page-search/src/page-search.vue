@@ -9,7 +9,7 @@
           <el-button @click="handleResetClick">
             <el-icon class="icon"><refresh /></el-icon>重置
           </el-button>
-          <el-button type="primary">
+          <el-button type="primary" @click="handleSearchClick">
             <el-icon class="icon"><search /></el-icon>搜索
           </el-button>
         </div>
@@ -23,12 +23,12 @@ import { reactive, ref } from 'vue'
 // sub cpn
 import { Refresh, Search } from '@element-plus/icons-vue'
 import KfForm from '@/base-ui/form'
-import { searchFormConfig } from '@/views/main/system/role/config/search.config'
 
 const props = defineProps<{
   searchFormConfig: any
 }>()
-const formItems = searchFormConfig.formItems
+const emit = defineEmits(['onResetBtnClick', 'onSearchBtnClick'])
+const formItems = props.searchFormConfig?.formItems ?? []
 const formOriginData: any = {}
 for (const item of formItems) {
   formOriginData[item.field] = ''
@@ -40,7 +40,11 @@ const handleResetClick = () => {
     // 使得浅拷贝后的对象也能监听到深层变化，而不是改变原先对象的引用
     // formData.value = formOriginData
     formData.value[key] = formOriginData[key]
+    emit('onResetBtnClick')
   }
+}
+const handleSearchClick = () => {
+  emit('onSearchBtnClick', formData.value)
 }
 </script>
 

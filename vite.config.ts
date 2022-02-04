@@ -1,9 +1,9 @@
 import { defineConfig } from 'vite'
 import vue from '@vitejs/plugin-vue'
 import styleImport, { ElementPlusResolve } from 'vite-plugin-style-import'
-// import AutoImport from 'unplugin-auto-import/vite'
-// import Components from 'unplugin-vue-components/vite'
-// import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
+import AutoImport from 'unplugin-auto-import/vite'
+import Components from 'unplugin-vue-components/vite'
+import { ElementPlusResolver } from 'unplugin-vue-components/resolvers'
 // =====================
 import path from 'path'
 const pathResolve = (dirPath: string) => path.resolve(process.cwd(), dirPath)
@@ -25,6 +25,12 @@ export default ({ command }) => {
             resolveStyle: (name) => `element-plus/theme-chalk/${name}.css`
           }
         ]
+      }),
+      AutoImport({
+        resolvers: [ElementPlusResolver()]
+      }),
+      Components({
+        resolvers: [ElementPlusResolver()]
       })
     ],
     resolve: {

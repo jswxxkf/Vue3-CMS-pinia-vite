@@ -2,9 +2,14 @@ import { defineStore } from 'pinia'
 import router from '@/router'
 // utils
 import localCache from '@/utils/cache'
-import { getAllRoutes, filterOutValidRoutes } from '@/utils/map-menus'
+import { getAllRoutes, filterOutValidRoutes, mapMenusToPermissions } from '@/utils/map-menus'
 // constants
-import { TOKEN_KEY, USER_INFO_KEY, USER_MENUS_KEY } from '@/constants/cache_keys'
+import {
+  TOKEN_KEY,
+  USER_INFO_KEY,
+  USER_MENUS_KEY,
+  USER_PERMISSIONS_KEY
+} from '@/constants/cache_keys'
 // types
 import { IAccount } from '@/service/login/types'
 // service
@@ -18,6 +23,7 @@ interface IUserState {
   token: string
   userInfo: any
   userMenus: any
+  permissions: string[]
 }
 
 export const useUserStore = defineStore('user', {
@@ -25,7 +31,8 @@ export const useUserStore = defineStore('user', {
     return {
       token: '',
       userInfo: {},
-      userMenus: {}
+      userMenus: {},
+      permissions: []
     }
   },
   getters: {
@@ -37,6 +44,9 @@ export const useUserStore = defineStore('user', {
     },
     getUserMenus(): any {
       return this.userMenus || localCache.getCache(USER_MENUS_KEY)
+    },
+    getPermissions(): any[] {
+      return this.permissions || localCache.getCache(USER_PERMISSIONS_KEY)
     }
   },
   actions: {
@@ -47,6 +57,10 @@ export const useUserStore = defineStore('user', {
     setUserInfo(userInfo: any) {
       this.userInfo = userInfo
       localCache.setCache(USER_INFO_KEY, userInfo)
+    },
+    setPermissions(permissions: string[]) {
+      this.permissions = permissions
+      localCache.setCache(USER_PERMISSIONS_KEY, permissions)
     },
     async setUserMenus(userMenus: any) {
       this.userMenus = userMenus
@@ -71,7 +85,10 @@ export const useUserStore = defineStore('user', {
       const userMenusRes = await requestUserMenusById(id)
       const userMenus = userMenusRes.data
       await this.setUserMenus(userMenus)
-      // 4.跳转首页
+      // 4.根据用户菜单获取用户按钮(增删改查)权限
+      const permissions = mapMenusToPermissions(userMenus)
+      this.setPermissions(permissions)
+      // 5.跳转首页
       router.push('/main')
     },
     async phoneLogin(loginParams: any) {

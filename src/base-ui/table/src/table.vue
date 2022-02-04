@@ -8,7 +8,13 @@
     <div class="header-oper">
       <slot name="headerOper"></slot>
     </div>
-    <el-table :data="listData" border style="width: 100%" @selection-change="handleSelectionChange">
+    <el-table
+      :data="listData"
+      border
+      style="width: 100%"
+      v-bind="childrenProps"
+      @selection-change="handleSelectionChange"
+    >
       <el-table-column
         v-if="showSelectColumn"
         type="selection"
@@ -17,7 +23,7 @@
       ></el-table-column>
       <el-table-column v-if="showIndexColumn" type="index" label="序号" align="center" width="80" />
       <template v-for="propItem in propList" :key="propItem.prop">
-        <el-table-column v-bind="propItem" align="center">
+        <el-table-column v-bind="propItem" align="center" show-overflow-tooltip>
           <template #default="scope">
             <slot :name="propItem.slotName" :row="scope.row">
               {{ scope.row[propItem.prop] }}
@@ -26,12 +32,16 @@
         </el-table-column>
       </template>
     </el-table>
-    <div class="footer">
+    <div v-if="showFooter" class="footer">
       <slot name="footer">
         <el-pagination
+          :page-size="page.pageSize"
+          :current-page="page.currentPage"
+          :total="listCount"
           background
           layout="total, sizes, prev, pager, next, jumper"
-          :total="listCount"
+          @size-change="handleSizeChange"
+          @current-change="handleCurrentChange"
         >
         </el-pagination>
       </slot>
@@ -40,7 +50,9 @@
 </template>
 
 <script setup lang="ts">
-withDefaults(
+import { IPageInfo } from '../types/type'
+
+const props = withDefaults(
   defineProps<{
     title: string
     listData: any[]
@@ -48,16 +60,28 @@ withDefaults(
     propList: any[]
     showSelectColumn: boolean
     showIndexColumn: boolean
+    page: IPageInfo
+    childrenProps?: any
+    showFooter?: boolean
   }>(),
   {
     showSelectColumn: false,
-    showIndexColumn: false
+    showIndexColumn: false,
+    page: () => ({ currentPage: 1, pageSize: 10 }),
+    childrenProps: () => ({}),
+    showFooter: true
   }
 )
-const emit = defineEmits(['selectionChange'])
+const emit = defineEmits(['selectionChange', 'update:page'])
 // 事件处理
 const handleSelectionChange = (value: any) => {
   emit('selectionChange', value)
+}
+const handleSizeChange = (pageSize: number) => {
+  emit('update:page', { ...props.page, pageSize })
+}
+const handleCurrentChange = (currentPage: number) => {
+  emit('update:page', { ...props.page, currentPage: currentPage })
 }
 </script>
 
