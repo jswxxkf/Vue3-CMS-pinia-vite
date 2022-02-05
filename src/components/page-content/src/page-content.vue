@@ -7,8 +7,8 @@
       v-bind="contentTableConfig"
     >
       <template #headerOper>
-        <el-button v-if="isCreate" type="primary" size="default">
-          <span>新建{{ contentTableConfig.title.slice(0, 2) }}</span>
+        <el-button v-if="isCreate" type="primary" size="default" @click="handleCreateClick">
+          <span>新建{{ contentTableConfig.tableTitle.slice(0, 2) }}</span>
         </el-button>
       </template>
       <template #status="scope">
@@ -21,12 +21,17 @@
       <template #updateAt="scope">
         <span>{{ $filters.formatTime(scope.row.updateAt) }}</span>
       </template>
-      <template #oper>
+      <template #oper="scope">
         <div class="table-oper">
-          <el-button v-if="isUpdate" size="default" type="text">
+          <el-button v-if="isUpdate" size="default" type="text" @click="handleEditData(scope.row)">
             <el-icon class="oper-icon"><edit /></el-icon>编辑
           </el-button>
-          <el-button v-if="isDelete" size="default" type="text">
+          <el-button
+            v-if="isDelete"
+            size="default"
+            type="text"
+            @click="handleDeleteClick(scope.row)"
+          >
             <el-icon class="oper-icon"><delete /></el-icon>删除
           </el-button>
         </div>
@@ -54,7 +59,7 @@ const props = defineProps<{
   pageName: string
   contentTableConfig: any
 }>()
-
+const emit = defineEmits(['createBtnClicked', 'editBtnClicked'])
 const systemStore = useSystemStore()
 // 用户按钮权限
 const isCreate = usePermission(props.pageName, 'create')
@@ -85,6 +90,16 @@ const otherPropSlots = props.contentTableConfig.propList.filter((item: any) => {
   if (item.slotName === 'oper') return false
   return true
 })
+// 事件处理
+const handleDeleteClick = (item: any) => {
+  systemStore.deletePageData(props.pageName, item.id)
+}
+const handleCreateClick = () => {
+  emit('createBtnClicked')
+}
+const handleEditData = (item: any) => {
+  emit('editBtnClicked', item)
+}
 
 defineExpose({ getPageData })
 </script>

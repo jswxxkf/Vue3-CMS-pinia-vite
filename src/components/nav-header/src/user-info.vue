@@ -13,7 +13,7 @@
       </span>
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item>退出登录</el-dropdown-item>
+          <el-dropdown-item @click="handleLogoutClick">退出登录</el-dropdown-item>
           <el-dropdown-item divided>用户信息</el-dropdown-item>
           <el-dropdown-item>系统管理</el-dropdown-item>
         </el-dropdown-menu>
@@ -23,12 +23,25 @@
 </template>
 
 <script setup lang="ts">
-import { ArrowDown } from '@element-plus/icons-vue/'
-import { useUserStore } from '@/store'
 import { computed } from 'vue'
+// sub cpn
+import { ArrowDown } from '@element-plus/icons-vue/'
+// hooks
+import { useUserStore } from '@/store'
+import { useRouter } from 'vue-router'
+// utils
+import localCache from '@/utils/cache'
+// constants
+import { TOKEN_KEY } from '@/constants/cache_keys'
 
 const userStore = useUserStore()
+const router = useRouter()
 const username = computed(() => userStore.getUserInfo.name)
+// 事件处理
+const handleLogoutClick = () => {
+  localCache.deleteCache(TOKEN_KEY)
+  router.push('/main')
+}
 </script>
 
 <style scoped lang="less">

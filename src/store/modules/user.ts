@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
+import { useSystemStore } from '..'
 // utils
 import localCache from '@/utils/cache'
 import { getAllRoutes, filterOutValidRoutes, mapMenusToPermissions } from '@/utils/map-menus'
@@ -77,18 +78,20 @@ export const useUserStore = defineStore('user', {
       const loginRes = await accountLoginRequest(account)
       const { id, token } = loginRes.data
       this.setToken(token)
-      // 2.请求用户信息
+      // 2.发送初始化信息请求(完整的role/department)
+      useSystemStore().getInitialData()
+      // 3.请求用户信息
       const userInfoRes = await requestUserInfoById(id)
       const userInfo = userInfoRes.data
       this.setUserInfo(userInfo)
-      // 3.请求用户菜单
+      // 4.请求用户菜单
       const userMenusRes = await requestUserMenusById(id)
       const userMenus = userMenusRes.data
       await this.setUserMenus(userMenus)
-      // 4.根据用户菜单获取用户按钮(增删改查)权限
+      // 5.根据用户菜单获取用户按钮(增删改查)权限
       const permissions = mapMenusToPermissions(userMenus)
       this.setPermissions(permissions)
-      // 5.跳转首页
+      // 6.跳转首页
       router.push('/main')
     },
     async phoneLogin(loginParams: any) {
@@ -109,4 +112,6 @@ export async function setupUser() {
   const userMenus = localCache.getCache(USER_MENUS_KEY)
   if (!userMenus) throw new Error('未获取到用户菜单信息!')
   await userStore.setUserMenus(userMenus)
+  const permissions = localCache.getCache(USER_PERMISSIONS_KEY)
+  permissions && userStore.setPermissions(permissions)
 }

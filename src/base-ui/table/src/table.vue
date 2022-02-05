@@ -2,7 +2,7 @@
   <div class="kf-table">
     <div class="header">
       <slot name="header">
-        <div class="title">{{ title }}</div>
+        <div class="title">{{ tableTitle }}</div>
       </slot>
     </div>
     <div class="header-oper">
@@ -54,17 +54,18 @@ import { IPageInfo } from '../types/type'
 
 const props = withDefaults(
   defineProps<{
-    title: string
+    tableTitle: string
     listData: any[]
-    listCount: number
     propList: any[]
-    showSelectColumn: boolean
-    showIndexColumn: boolean
-    page: IPageInfo
+    listCount?: number
+    showSelectColumn?: boolean
+    showIndexColumn?: boolean
+    page?: IPageInfo
     childrenProps?: any
     showFooter?: boolean
   }>(),
   {
+    listCount: 0,
     showSelectColumn: false,
     showIndexColumn: false,
     page: () => ({ currentPage: 1, pageSize: 10 }),

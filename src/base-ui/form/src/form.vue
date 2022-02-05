@@ -7,7 +7,12 @@
       <el-row>
         <template v-for="item in formItems" :key="item.label">
           <el-col :span="8" v-bind="colLayout">
-            <el-form-item :label="item.label" :rules="item.rules" :style="itemStyle">
+            <el-form-item
+              v-if="!item.isHidden"
+              :label="item.label"
+              :rules="item.rules"
+              :style="itemStyle"
+            >
               <el-input
                 v-if="item.type === 'input' || item.type === 'password'"
                 v-model="formData[`${item.field}`]"
@@ -53,9 +58,9 @@ import { IFormItem } from '../types'
 
 const props = withDefaults(
   defineProps<{
-    modelValue: any
-    labelWidth: string
-    formItems: IFormItem[]
+    modelValue?: any
+    labelWidth?: string
+    formItems?: IFormItem[]
     itemStyle?: CSSProperties
     colLayout?: any
   }>(),

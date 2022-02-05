@@ -62,7 +62,7 @@ const defaultValue = ref(menu.id + '')
 // ===================
 const props = withDefaults(
   defineProps<{
-    isCollapsed: boolean
+    isCollapsed?: boolean
   }>(),
   {
     isCollapsed: false

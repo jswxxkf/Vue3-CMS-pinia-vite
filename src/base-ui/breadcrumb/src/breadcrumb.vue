@@ -14,7 +14,7 @@ import { IBreadcrumb } from '../types'
 
 const props = withDefaults(
   defineProps<{
-    breadcrumbs: IBreadcrumb[]
+    breadcrumbs?: IBreadcrumb[]
   }>(),
   {
     breadcrumbs: () => []
