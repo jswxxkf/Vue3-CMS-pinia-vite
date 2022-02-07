@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia'
 import router from '@/router'
-import { useSystemStore } from '..'
+import { useMainStore } from '..'
 // utils
 import localCache from '@/utils/cache'
 import { getAllRoutes, filterOutValidRoutes, mapMenusToPermissions } from '@/utils/map-menus'
@@ -79,7 +79,7 @@ export const useUserStore = defineStore('user', {
       const { id, token } = loginRes.data
       this.setToken(token)
       // 2.发送初始化信息请求(完整的role/department)
-      useSystemStore().getInitialData()
+      useMainStore().getInitialData()
       // 3.请求用户信息
       const userInfoRes = await requestUserInfoById(id)
       const userInfo = userInfoRes.data

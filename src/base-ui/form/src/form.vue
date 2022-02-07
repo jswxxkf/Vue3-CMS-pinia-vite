@@ -19,6 +19,7 @@
                 v-bind="item.otherOptions"
                 :placeholder="item.placeholder"
                 :show-password="item.type === 'password'"
+                :disabled="item.disabled"
               />
               <el-select
                 v-else-if="item.type === 'select'"
@@ -26,6 +27,7 @@
                 v-bind="item.otherOptions"
                 style="width: 100%"
                 :placeholder="item.placeholder"
+                :disabled="item.disabled"
               >
                 <el-option
                   v-for="option in item.options"

@@ -48,8 +48,8 @@
 
 <script setup lang="ts">
 import { computed, reactive, ref, watch } from 'vue'
-// hooks
-import { useSystemStore } from '@/store'
+// hooks'
+import { useMainStore, useUserStore } from '@/store'
 import { usePermission } from '@/hooks/use-permission'
 // sub cpn
 import KfTable from '@/base-ui/table'
@@ -60,7 +60,8 @@ const props = defineProps<{
   contentTableConfig: any
 }>()
 const emit = defineEmits(['createBtnClicked', 'editBtnClicked'])
-const systemStore = useSystemStore()
+const mainStore = useMainStore()
+const username = computed(() => useUserStore().getUserInfo.name)
 // 用户按钮权限
 const isCreate = usePermission(props.pageName, 'create')
 const isUpdate = usePermission(props.pageName, 'update')
@@ -70,17 +71,17 @@ const isQuery = usePermission(props.pageName, 'query')
 const pageInfo = ref({ currentPage: 1, pageSize: 10 })
 // 获取页面数据逻辑
 const getPageData = (queryInfo: any = {}) => {
-  if (!isQuery) return
-  return systemStore.getPageList(props.pageName, {
+  if (username.value !== 'coderwhy' && !isQuery) return
+  return mainStore.getPageList(props.pageName, {
     offset: (pageInfo.value.currentPage - 1) * pageInfo.value.pageSize,
     size: pageInfo.value.pageSize,
     ...queryInfo
   })
 }
 getPageData()
-const dataList = computed(() => systemStore.pageListData(props.pageName))
-const dataCount = computed(() => systemStore.pageListCount(props.pageName))
-// 侦听pageInfo的改变
+const dataList = computed(() => mainStore.pageListData(props.pageName))
+const dataCount = computed(() => mainStore.pageListCount(props.pageName))
+// 侦听pageInfo分页信息的改变
 watch(pageInfo, () => getPageData())
 // 获取其他的动态插槽名称
 const otherPropSlots = props.contentTableConfig.propList.filter((item: any) => {
@@ -92,7 +93,7 @@ const otherPropSlots = props.contentTableConfig.propList.filter((item: any) => {
 })
 // 事件处理
 const handleDeleteClick = (item: any) => {
-  systemStore.deletePageData(props.pageName, item.id)
+  mainStore.deletePageData(props.pageName, item.id)
 }
 const handleCreateClick = () => {
   emit('createBtnClicked')

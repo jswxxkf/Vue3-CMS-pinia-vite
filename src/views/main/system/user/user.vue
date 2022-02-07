@@ -34,16 +34,16 @@ import { modalConfig } from './config/modal.config'
 // hooks
 import { usePageSearch } from '@/hooks/use-page-search'
 import { usePageModal } from '@/hooks/use-page-modal'
-import { useSystemStore } from '@/store'
+import { useMainStore } from '@/store'
 
-const systemStore = useSystemStore()
+const mainStore = useMainStore()
 const reactiveModalConfig = computed(() => {
   const deptConfig = modalConfig.formItems.find((item) => item.field === 'departmentId')
-  deptConfig!.options = systemStore.entireDepartment.map((item) => {
+  deptConfig!.options = mainStore.entireDepartment.map((item) => {
     return { title: item.name, value: item.id }
   })
   const roleConfig = modalConfig.formItems.find((item) => item.field === 'roleId')
-  roleConfig!.options = systemStore.entireRole.map((item) => {
+  roleConfig!.options = mainStore.entireRole.map((item) => {
     return { title: item.name, value: item.id }
   })
   return modalConfig

@@ -7,31 +7,49 @@ import {
   editPageData
 } from '@/service/main/system/system'
 
-interface ISystemState {
+interface IMainState {
+  // system
   usersList: any[]
   usersCount: number
   roleList: any[]
   roleCount: number
-  goodsList: any[]
-  goodsCount: number
   menuList: any[]
   menuCount: number
+  departmentList: any[]
+  departmentCount: number
+  // product
+  goodsList: any[]
+  goodsCount: number
+  categoryList: any[]
+  categoryCount: number
+  // story
+  storyList: any[]
+  storyCount: number
   entireDepartment: any[]
   entireRole: any[]
   entireMenu: any[]
 }
 
-export const useSystemStore = defineStore('system', {
-  state: (): ISystemState => {
+export const useMainStore = defineStore('main', {
+  state: (): IMainState => {
     return {
+      // system
       usersList: [],
       usersCount: 0,
       roleList: [],
       roleCount: 0,
-      goodsList: [],
-      goodsCount: 0,
       menuList: [],
       menuCount: 0,
+      departmentList: [],
+      departmentCount: 0,
+      // product
+      goodsList: [],
+      goodsCount: 0,
+      categoryList: [],
+      categoryCount: 0,
+      // story
+      storyList: [],
+      storyCount: 0,
       entireDepartment: [],
       entireRole: [],
       entireMenu: []
@@ -58,16 +76,28 @@ export const useSystemStore = defineStore('system', {
       this.roleList = roleList
       this.roleCount = roleCount
     },
-    goodsPageDataSetting(goodsList: any[], goodsCount: number) {
-      this.goodsList = goodsList
-      this.goodsCount = goodsCount
-    },
     menuPageDataSetting(menuList: any[], menuCount: number) {
       this.menuList = menuList
       this.menuCount = menuCount
     },
-    setInitialData(departmentList: any[], roleList: any[], menuList: any[]) {
-      this.entireDepartment = departmentList
+    departmentPageDataSetting(deptList: any[], deptCount: number) {
+      this.departmentList = deptList
+      this.departmentCount = deptCount
+    },
+    goodsPageDataSetting(goodsList: any[], goodsCount: number) {
+      this.goodsList = goodsList
+      this.goodsCount = goodsCount
+    },
+    categoryPageDataSetting(categoryList: any[], categoryCount: number) {
+      this.categoryList = categoryList
+      this.categoryCount = categoryCount
+    },
+    storyPageDataSetting(storyList: any[], storyCount: number) {
+      this.storyList = storyList
+      this.storyCount = storyCount
+    },
+    setInitialData(deptList: any[], roleList: any[], menuList: any[]) {
+      this.entireDepartment = deptList
       this.entireRole = roleList
       this.entireMenu = menuList
     },
@@ -125,7 +155,7 @@ export const useSystemStore = defineStore('system', {
   }
 })
 
-export async function setupSystem() {
-  const systemStore = useSystemStore()
-  await systemStore.getInitialData()
+export async function setupMain() {
+  const mainStore = useMainStore()
+  await mainStore.getInitialData()
 }

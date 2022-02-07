@@ -47,7 +47,7 @@ import { modalConfig } from './config/modal.config'
 // hooks
 import { usePageSearch } from '@/hooks/use-page-search'
 import { usePageModal } from '@/hooks/use-page-modal'
-import { useSystemStore } from '@/store'
+import { useMainStore } from '@/store'
 // utils
 import { mapMenusToLeafKeys } from '@/utils/map-menus'
 
@@ -66,13 +66,13 @@ const { defaultInfo, pageModalRef, handleCreateData, handleEditData } = usePageM
 )
 const otherInfo = ref({})
 // 加载全部菜单项
-const systemStore = useSystemStore()
-const entireMenu = computed(() => systemStore.entireMenu)
+const mainStore = useMainStore()
+const entireMenu = computed(() => mainStore.entireMenu)
 // 事件处理
 const handleCheckChange = (data1: any, data2: any) => {
-  const checkedNodes = data2.checkedNodes
-  const halfCheckedNodes = data2.halfCheckedNodes
-  const menuList = [...checkedNodes, ...halfCheckedNodes]
+  const checkedIds = data2.checkedNodes.map((node: any) => node.id)
+  const halfCheckedIds = data2.halfCheckedNodes.map((node: any) => node.id)
+  const menuList = [...checkedIds, ...halfCheckedIds]
   otherInfo.value = { menuList: menuList }
 }
 </script>

@@ -2,6 +2,7 @@ import { IForm } from '@/base-ui/form/types'
 
 export const modalConfig: IForm = {
   formTitle: '用户对话框',
+  itemStyle: { padding: '10px 40px' },
   formItems: [
     {
       field: 'name',

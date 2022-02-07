@@ -14,9 +14,9 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch } from 'vue'
+import { computed, ref, watch } from 'vue'
 // hooks
-import { useSystemStore } from '@/store'
+import { useMainStore } from '@/store'
 // sub cpn
 import KfForm from '@/base-ui/form'
 
@@ -26,17 +26,27 @@ const props = withDefaults(
     pageName: string
     defaultInfo?: any
     otherInfo?: any
+    modelValue?: any
   }>(),
   {
     defaultInfo: () => ({}),
-    otherInfo: () => ({})
+    otherInfo: () => ({}),
+    modelValue: () => ({})
   }
 )
+const emit = defineEmits(['update:modelValue'])
 
-const systemStore = useSystemStore()
-const title = `新建${props.modalConfig.formTitle.slice(0, 2)}`
+const mainStore = useMainStore()
+const title = computed(() => {
+  if (Object.keys(props.defaultInfo).length) {
+    return `编辑${props.modalConfig.formTitle.slice(0, 2)}`
+  } else {
+    return `新建${props.modalConfig.formTitle.slice(0, 2)}`
+  }
+})
 const formData = ref<any>({})
 const dialogVisible = ref(false)
+// 用来做编辑时，数据的回显
 watch(
   () => props.defaultInfo, // 由于已经失去响应式，故必须写为getter函数
   (newValue) => {
@@ -45,18 +55,20 @@ watch(
     }
   }
 )
+// 对formData的监听，需要改变父组件中双向绑定值
+watch(formData, (newValue) => emit('update:modelValue', newValue), { deep: true })
 // 事件处理
 const handleConfirmClick = () => {
   dialogVisible.value = false
   if (Object.keys(props.defaultInfo).length) {
     // 编辑
-    systemStore.editPageData(
+    mainStore.editPageData(
       props.pageName,
       { ...formData.value, ...props.otherInfo },
       props.defaultInfo.id
     )
   } else {
-    systemStore.createPageData(props.pageName, { ...formData.value, ...props.otherInfo })
+    mainStore.createPageData(props.pageName, { ...formData.value, ...props.otherInfo })
   }
 }
 
