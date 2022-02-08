@@ -135,7 +135,7 @@ export const useMainStore = defineStore('main', {
     async createPageData(pageName: string, newData: any) {
       // 1.创建数据的请求
       const pageUrl = `/${pageName}`
-      await createPageData(pageName, newData)
+      await createPageData(pageUrl, newData)
       // 2.请求最新的数据
       await this.getPageList(pageName, {
         offset: 0,

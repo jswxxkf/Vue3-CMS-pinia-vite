@@ -7,6 +7,8 @@ declare module '*.vue' {
   export default component
 }
 
+declare module '*.json'
+
 declare const $filters: {
   formatTime: (v: string) => string
 }
