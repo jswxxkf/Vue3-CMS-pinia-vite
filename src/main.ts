@@ -15,9 +15,5 @@ app.use(globalRegister) // 等价于globalRegister(app)
 app.use(store)
 // setup store
 setupStore()
-  .then(() => app.use(router))
-  .catch((err) => {
-    app.use(router)
-    navigateToErrorPage(err)
-  })
-  .finally(() => app.mount('#app'))
+app.use(router)
+app.mount('#app')

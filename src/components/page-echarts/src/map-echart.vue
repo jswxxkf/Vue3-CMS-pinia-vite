@@ -5,7 +5,7 @@
 </template>
 
 <script setup lang="ts">
-import { defineProps, computed, withDefaults } from 'vue'
+import { computed, withDefaults } from 'vue'
 // utils
 import { convertData } from '../utils/convert-data'
 // sub cpn

@@ -3,22 +3,15 @@ import { RouteRecordRaw } from 'vue-router'
 
 let firstMenu: any = null
 
-export function getAllRoutes(): Promise<RouteRecordRaw[]> {
-  return new Promise((resolve, reject) => {
-    const allRoutes: RouteRecordRaw[] = []
-    const routeFiles = import.meta.globEager('../router/main/**/*.ts')
-    try {
-      Object.keys(routeFiles).forEach(async (key, index) => {
-        const { default: route } = await import(/* @vite-ignore */ key)
-        allRoutes.push(route)
-        if (index === Object.keys(routeFiles).length - 1) {
-          resolve(allRoutes)
-        }
-      })
-    } catch (err) {
-      reject(err)
-    }
+export function getAllRoutes(): RouteRecordRaw[] {
+  const allRoutes: RouteRecordRaw[] = []
+  const routeFiles = import.meta.globEager('../router/main/**/*.ts')
+  Object.keys(routeFiles).forEach(async (key, index) => {
+    const route = routeFiles[key].default
+    allRoutes.push(route)
   })
+  console.log(allRoutes)
+  return allRoutes
 }
 
 export function filterOutValidRoutes(userMenus: any[], allRoutes: RouteRecordRaw[]) {

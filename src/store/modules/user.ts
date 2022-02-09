@@ -63,10 +63,10 @@ export const useUserStore = defineStore('user', {
       this.permissions = permissions
       localCache.setCache(USER_PERMISSIONS_KEY, permissions)
     },
-    async setUserMenus(userMenus: any) {
+    setUserMenus(userMenus: any) {
       this.userMenus = userMenus
       // 获取所有主页路由信息
-      const allRoutes = await getAllRoutes()
+      const allRoutes = getAllRoutes()
       // 根据当前用户权限对应的菜单，筛选出符合条件的路由
       const validRoutes = filterOutValidRoutes(userMenus, allRoutes)
       // 注入主页的子路由
@@ -87,7 +87,7 @@ export const useUserStore = defineStore('user', {
       // 4.请求用户菜单
       const userMenusRes = await requestUserMenusById(id)
       const userMenus = userMenusRes.data
-      await this.setUserMenus(userMenus)
+      this.setUserMenus(userMenus)
       // 5.根据用户菜单获取用户按钮(增删改查)权限
       const permissions = mapMenusToPermissions(userMenus)
       this.setPermissions(permissions)
@@ -100,7 +100,7 @@ export const useUserStore = defineStore('user', {
   }
 })
 
-export async function setupUser() {
+export function setupUser() {
   const userStore = useUserStore()
   // 设置token
   const token = localCache.getCache(TOKEN_KEY)
@@ -110,8 +110,7 @@ export async function setupUser() {
   userInfo && userStore.setUserInfo(userInfo)
   // 设置userMenus
   const userMenus = localCache.getCache(USER_MENUS_KEY)
-  if (!userMenus) throw new Error('未获取到用户菜单信息!')
-  await userStore.setUserMenus(userMenus)
+  userMenus && userStore.setUserMenus(userMenus)
   const permissions = localCache.getCache(USER_PERMISSIONS_KEY)
   permissions && userStore.setPermissions(permissions)
 }

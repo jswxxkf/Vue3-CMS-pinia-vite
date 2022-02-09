@@ -13,6 +13,9 @@ export default ({ command }) => {
   const isBuild = command === 'build'
 
   return defineConfig({
+    build: {
+      sourcemap: true
+    },
     plugins: [
       vue(),
       // element-plus组件样式按需引入

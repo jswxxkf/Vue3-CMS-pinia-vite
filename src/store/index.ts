@@ -5,9 +5,9 @@ import { useAnalysisStore } from './modules/analysis'
 
 const store = createPinia()
 
-export async function setupStore() {
-  await setupUser()
-  await setupMain()
+export function setupStore() {
+  setupUser()
+  setupMain()
 }
 
 export { useUserStore, useMainStore, useAnalysisStore }

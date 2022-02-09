@@ -27,8 +27,14 @@ const props = withDefaults(
   &:deep(.el-card__header) {
     padding: 10px 20px !important;
   }
+  .card-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 30px;
+  }
   .item {
-    margin-bottom: 1px;
+    margin-bottom: 10px;
   }
 }
 </style>
