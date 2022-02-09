@@ -10,7 +10,6 @@ export function getAllRoutes(): RouteRecordRaw[] {
     const route = routeFiles[key].default
     allRoutes.push(route)
   })
-  console.log(allRoutes)
   return allRoutes
 }
 
