@@ -28,8 +28,8 @@ import { rules } from '../config/account-config'
 const router = useRouter()
 const userStore = useUserStore()
 const account = reactive({
-  name: localCache.getCache(USER_NAME) || '',
-  password: localCache.getCache(PASSWORD) || ''
+  name: localCache.getCache(USER_NAME) || 'coderwhy',
+  password: localCache.getCache(PASSWORD) || '123456'
 })
 const formRef = ref<InstanceType<typeof ElForm>>()
 // handlers
