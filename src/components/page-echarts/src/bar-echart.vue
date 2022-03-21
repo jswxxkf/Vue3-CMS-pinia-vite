@@ -35,7 +35,7 @@ const options = computed(() => {
         show: false
       },
       axisLine: {
-        show: false
+        show: true
       },
       z: 10
     },
@@ -47,7 +47,7 @@ const options = computed(() => {
         show: true
       },
       axisLabel: {
-        color: '#999'
+        color: '#777'
       }
     },
     dataZoom: [

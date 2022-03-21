@@ -37,8 +37,9 @@ const options = computed(() => {
     },
     legend: {},
     toolbox: {
+      right: '5%',
       feature: {
-        saveAsImage: { show: true }
+        saveAsImage: { show: true, title: '保存为图片' }
       }
     },
     grid: {

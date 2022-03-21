@@ -21,12 +21,12 @@ const props = withDefaults(
 const options = computed(() => {
   return {
     toolbox: {
+      left: '5%',
       show: true,
       feature: {
-        mark: { show: true },
-        dataView: { show: true, readOnly: true },
-        restore: { show: true },
-        saveAsImage: { show: true }
+        dataView: { show: true, readOnly: true, title: '数据视图' },
+        restore: { show: true, title: '还原' },
+        saveAsImage: { show: true, title: '另存为图片' }
       }
     },
     series: [

@@ -31,7 +31,7 @@ const options = computed(() => {
       text: '全国销量统计',
       left: 'center',
       textStyle: {
-        color: '#000',
+        color: '#666',
         fontSize: 16
       }
     },
@@ -42,6 +42,7 @@ const options = computed(() => {
       }
     },
     visualMap: {
+      type: 'continuous',
       min: 0,
       max: 60000,
       left: 10,
@@ -57,11 +58,10 @@ const options = computed(() => {
     },
     geo: {
       map: 'china',
-      roam: 'scale',
+      roam: true, // equivalent to 'move' + 'scale'
       emphasis: {
-        areaColor: '#f4cccc',
-        borderColor: 'rgb(9, 54, 95)',
         itemStyle: {
+          borderColor: 'rgb(9, 54, 95)',
           areaColor: '#f4cccc'
         }
       }
@@ -69,7 +69,7 @@ const options = computed(() => {
     series: [
       {
         name: '销量',
-        type: 'scatter',
+        type: 'scatter', // 在地理坐标系上绘制散点图
         coordinateSystem: 'geo',
         data: convertData(props.mapData),
         symbolSize: 12, // 圆点大小
