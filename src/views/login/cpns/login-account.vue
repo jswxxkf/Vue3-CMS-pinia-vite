@@ -14,7 +14,7 @@
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
 // sub cpn
-import { ElForm, ElFormItem, ElInput } from 'element-plus'
+import { ElForm } from 'element-plus'
 // hooks
 import { useRouter } from 'vue-router'
 import { useUserStore } from '@/store'
@@ -25,7 +25,6 @@ import { USER_NAME, PASSWORD } from '@/constants/cache_keys'
 // template data
 import { rules } from '../config/account-config'
 
-const router = useRouter()
 const userStore = useUserStore()
 const account = reactive({
   name: localCache.getCache(USER_NAME) || 'coderwhy',

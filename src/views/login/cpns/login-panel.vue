@@ -34,7 +34,6 @@ import { ref } from 'vue'
 // sub cpn
 import LoginAccount from './login-account.vue'
 import LoginPhone from './login-phone.vue'
-import { ElTabs, ElTabPane, ElIcon, ElCheckbox, ElLink, ElButton } from 'element-plus'
 import { Iphone, UserFilled } from '@element-plus/icons-vue'
 
 const isKeepPassword = ref(true)
